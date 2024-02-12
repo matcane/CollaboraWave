@@ -4,20 +4,24 @@ import Header from './Header.jsx';
 
 function App() {
   
-  const [loggedUser, setLoggedUser] = useState(false);
+  let loggedUser = window.localStorage.getItem("isLogged");
 
   if (loggedUser){
     return (
       <>
-        <Header user={loggedUser} onUserChange={setLoggedUser}/>
+        <Header user={loggedUser}/>
+        <Board />
       </>
     )
   }
-  return (
-    <>
-      <Header user={loggedUser} onUserChange={setLoggedUser}/>
-    </>
-  )
+  else {
+    return (
+      <>
+        <Header user={loggedUser}/>
+      </>
+    )
+  }
+  
 }
 
 export default App

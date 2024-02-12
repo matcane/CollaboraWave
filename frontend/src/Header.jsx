@@ -23,7 +23,8 @@ function Header(props) {
             "/api/logout/",
             {withCredentials: true}
         ).then(function(res) {
-            props.onUserChange(false);
+            window.localStorage.removeItem("isLogged");
+            window.location.reload(false);
         });
     }
 
@@ -37,10 +38,11 @@ function Header(props) {
             password: password
           }
         ).then(function(res) {
-            props.onUserChange(true);
+            window.localStorage.setItem("isLogged", true);
             setUsername("");
             setPassword("");
             setLoginFormVisibility(false);
+            window.location.reload(false);
         }).catch(function(error) {
             console.log(error.response.data);
         });
@@ -56,10 +58,11 @@ function Header(props) {
             password: password
           }
         ).then(function(res) {
-            props.onUserChange(true);
+            window.localStorage.setItem("isLogged", true);
             setUsername("");
             setPassword("");
             setRegisterFormVisibility(false);
+            window.location.reload(false);
         }).catch(function(error) {
             console.log(error.response.data);
         });
