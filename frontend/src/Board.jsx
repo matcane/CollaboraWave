@@ -1,5 +1,17 @@
+import React, { useState } from 'react';
+import Card from "./Card.jsx";
 
 function Board () {
+
+    const [cards, setCards] = useState([<Card key={0} />]);
+
+    const addNewCard = () => {
+    
+    const newCard = <Card key={cards.length} />;
+    setCards([...cards, newCard]);
+    };
+    
+
     return(
         <>
         <div>
@@ -7,142 +19,71 @@ function Board () {
                 <li className="stage">
                     <div>
                         <div className="stage-title">
-                            <p>Stage 1</p>
+                            <p>asdhjkdashjgkhgjksdahgsasasdassadsdasdas</p>
                         </div>
                             <ol className="stage-list">
                                 <li>
-                                    <div className="card"></div>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
-                                </li>
-                                <li>
-                                    <a href="https://www.google.com/">Google</a>
+                                    {cards.map((card, index) => (
+                                        <React.Fragment key={index}>
+                                        {card}
+                                        </React.Fragment>
+                                    ))}
+                                    <div className="new-card-button" onClick={() => addNewCard()}>+ Nowa kartka</div>
                                 </li>
                             </ol>
                     </div>
                 </li>
                 <li className="stage">
                     <div>
-                        <div>
+                        <div className="stage-title">
                             <p>Stage 2</p>
                         </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
+                            <ol className="stage-list">
+                            <li>
+                                    {cards.map((card, index) => (
+                                        <React.Fragment key={index}>
+                                        {card}
+                                        </React.Fragment>
+                                    ))}
+                                    <div className="new-card-button" onClick={() => addNewCard()}>+ Nowa kartka</div>
                                 </li>
                             </ol>
                     </div>
                 </li>
                 <li className="stage">
                     <div>
-                        <div>
+                        <div className="stage-title">
                             <p>Stage 2</p>
                         </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
+                            <ol className="stage-list">
+                            <li>
+                                    {cards.map((card, index) => (
+                                        <React.Fragment key={index}>
+                                        {card}
+                                        </React.Fragment>
+                                    ))}
+                                    <div className="new-card-button" onClick={() => addNewCard()}>+ Nowa kartka</div>
                                 </li>
                             </ol>
                     </div>
                 </li>
                 <li className="stage">
                     <div>
-                        <div>
-                            <p>Stage 2</p>
+                        <div className="stage-title">
+                            <p>ahahahahahahahhahahahha</p>
                         </div>
-                            <ol>
+                            <ol className="stage-list">
                                 <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
+                                    {cards.map((card, index) => (
+                                        <React.Fragment key={index}>
+                                        {card}
+                                        </React.Fragment>
+                                    ))}
+                                    <div className="new-card-button" onClick={() => addNewCard()}>+ Nowa kartka</div>
                                 </li>
                             </ol>
                     </div>
-                </li>
-                <li className="stage">
-                    <div>
-                        <div>
-                            <p>Stage 2</p>
-                        </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
-                                </li>
-                            </ol>
-                    </div>
-                </li>
-                <li className="stage">
-                    <div>
-                        <div>
-                            <p>Stage 2</p>
-                        </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
-                                </li>
-                            </ol>
-                    </div>
-                </li>
-                <li className="stage">
-                    <div>
-                        <div>
-                            <p>Stage 2</p>
-                        </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
-                                </li>
-                            </ol>
-                    </div>
-                </li>
-                <li className="stage">
-                    <div>
-                        <div>
-                            <p>Stage 2</p>
-                        </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
-                                </li>
-                            </ol>
-                    </div>
-                </li>
-        
-                <li className="stage">
-                    <div>
-                        <div>
-                            <p>Stage 2</p>
-                        </div>
-                            <ol>
-                                <li>
-                                    <a href="https://www.youtube.com/">Youtube</a>
-                                </li>
-                            </ol>
-                    </div>
-                </li>        
+                </li>    
                 
             </ol>
         </div>

@@ -81,7 +81,7 @@ header {
 .board {
   display: inline-flex;
   flex-direction: row;
-  height: 80vh;
+  height: auto;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -91,10 +91,17 @@ header {
   height: 100%;
   width: 400px;
   border: 1px solid;
+  margin: 10px;
 }
 
 .stage-title {
   text-align: center;
+  background-color: hsla(211, 100%, 50%, 0.4);
+  border: 3px solid hsl(0, 0%, 50%);
+  width: 300px;
+  margin: 10px 10px 10px 50px;
+  border-radius: 0%;
+  overflow-x: auto;
 }
 
 .stage-list {
@@ -102,7 +109,76 @@ header {
 }
 
 .card {
+  background-color: hsla(211, 100%, 50%, 0.3);
   width: 300px;
-  height: 100px;
-  border: 1px solid;
+  height: auto;
+  margin: 10px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  border: 3px solid hsl(0, 0%, 50%);
+  position: relative;
+  overflow-wrap: break-word;
+  cursor: pointer;
+  border-radius: 10%;
+}
+.card:hover {
+  border: 3px solid rgb(0, 0, 0);
+}
+
+.new-card-button {
+  background-color: hsla(211, 100%, 50%, 0.2);
+  width: 300px;
+  height: 50px;
+  margin: 10px;
+  padding: 15px;
+  border: 3px solid hsl(0, 0%, 50%);
+  position: relative;
+  cursor: pointer;
+}
+.new-card-button:hover {
+  background-color: hsla(211, 100%, 50%, 0.4);
+}
+
+#top {
+
+  height: 25px;
+  width: 80%;
+  position: absolute;
+  top: 0%;
+  left: 10%;
+  text-align: center;
+}
+
+#top:hover {
+  background-color: hsla(211, 100%, 50%, 0.4);
+  cursor: pointer;
+}
+
+#bottom {
+
+  height: 25px;
+  width: 80%;
+  position: absolute;
+  bottom: 0%;
+  left: 10%;
+  text-align: center;
+}
+
+#bottom:hover {
+  background-color: hsla(211, 100%, 50%, 0.4);
+  cursor: pointer;
+}
+
+#card-text {
+  margin: 10px;
+}
+
+.card-edit {
+  text-decoration: none;
+}
+
+.card-edit p {
+  background-color: #007bff;
+  text-align: center;
+  font-size: xx-large;
 }
