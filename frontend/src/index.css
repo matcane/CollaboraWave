@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #f8d2a0;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -87,11 +91,23 @@ header {
 }
 
 .stage {
+  background-color: rgba(120, 120, 235, 0.5);
   list-style-type: none;
   height: 100%;
   width: 400px;
-  border: 1px solid;
+  border: 3px solid gray;
   margin: 10px;
+  border-radius: 15px;
+}
+
+.new-stage {
+  list-style: none;
+  width: 400px;
+  margin: 10px;
+}
+
+.stage:hover {
+  border: 3px solid rgb(0, 0, 0);
 }
 
 .stage-title {
@@ -100,8 +116,13 @@ header {
   border: 3px solid hsl(0, 0%, 50%);
   width: 300px;
   margin: 10px 10px 10px 50px;
-  border-radius: 0%;
+  border-radius: 12px;
   overflow-x: auto;
+  cursor: pointer;
+}
+
+.stage-title:hover {
+  border: 3px solid rgb(0, 0, 0);
 }
 
 .stage-list {
@@ -119,7 +140,7 @@ header {
   position: relative;
   overflow-wrap: break-word;
   cursor: pointer;
-  border-radius: 10%;
+  border-radius: 12px;
 }
 .card:hover {
   border: 3px solid rgb(0, 0, 0);
@@ -135,6 +156,22 @@ header {
   position: relative;
   cursor: pointer;
 }
+
+.new-stage-button {
+  background-color: hsla(211, 100%, 50%, 0.2);
+  width: 300px;
+  height: 50px;
+  margin: 10px 10px 10px 50px;
+  padding: 15px;
+  border: 3px solid hsl(0, 0%, 50%);
+  position: relative;
+  cursor: pointer;
+}
+
+.new-stage-button:hover {
+  border: 3px solid hsl(0, 0%, 0%);
+}
+
 .new-card-button:hover {
   background-color: hsla(211, 100%, 50%, 0.4);
 }
@@ -171,10 +208,12 @@ header {
 
 #card-text {
   margin: 10px;
+  min-height: 50px;
 }
 
-.card-edit {
-  text-decoration: none;
+#card-edit {
+  width: 100%;
+  height: 50px;
 }
 
 .card-edit p {

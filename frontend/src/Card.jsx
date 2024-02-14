@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 
-function Card () {
+
+function Card (props) {
+    const [isCardEditing, setIsCardEditing] = useState(props.editState);
+    const [title, setTitle] = useState("");
+
     return(
-        <div className="card">
-
-                <div id="top" onClick={() => console.log("aha")}>🔼</div>
-                <div id="card-text"><p>hagsjdaakjhsdaskdjasdasdasdasdasdasdasdasdasdasdasdasddddddddddddddddddddddddddddddddddddddddddddddddddddddddasddddddddddddddddddddddddddddddddddddddddddddddddsasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddskadjfhsdakfjshdfdskjfshdfkh</p></div>
-                <div id="bottom">🔽</div>
-
+        <div className="card" onDoubleClick={() => setIsCardEditing(true)}>
+                {isCardEditing 
+                ? 
+                <>
+                <div id="card-text"><input id="card-edit"  type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
+                <div id="bottom"><button onClick={() => {title !== "" ? setIsCardEditing(false) : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
+                </> 
+                : 
+                <><div id="top">🔼</div>
+                <div id="card-text"><p>{title}</p></div>
+                <div id="bottom">🔽</div></>}
+                
             
         </div>
     )
