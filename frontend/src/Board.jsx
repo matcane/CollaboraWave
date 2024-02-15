@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Card from "./Card.jsx";
 
 function Board () {
     const [stages, setStages] = useState([]);
+    const [isCardEditing, setIsCardEditing] = useState(false);
+    const [title, setTitle] = useState("");
     const [isStageEditing, setIsStageEditing] = useState(false);
     const [stageName, setStageName] = useState("");
+    const [stageEditIndex, setStageEditIndex] = useState(0);
+    const newRef = useRef(null);
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => {
+          document.removeEventListener("mousedown", handleOutsideClick);
+        };
+      });
 
     const addNewCard = (stageIndex) => {
-        const newCard = <Card key={stages[stageIndex].cards.length} editState={true}/>;
+        setIsCardEditing(false);
+        setTitle("");
+        const newCard = <Card key={stages[stageIndex].cards.length} editState={false} title={title}/>;
+        
         const updatedStages = stages.map((stage, index) => {
             if (index === stageIndex) {
                 return {
@@ -32,6 +46,17 @@ function Board () {
         console.log(stages);
     };
 
+    function handleTempCard(index) {
+        setStageEditIndex(index);
+        setIsCardEditing(true);
+        setIsStageEditing(false);
+    }
+
+    const handleOutsideClick = (e) => {
+        if (newRef.current && !newRef.current.contains(e.target)) {
+            setIsCardEditing(false);
+        }
+      };
 
     return(
         <>
@@ -44,12 +69,30 @@ function Board () {
                                     <p>{stage.name}</p>
                                 </div>
                                 <ol className="stage-list">
-                                    {stage.cards.map((card, cardIndex) => (
-                                        <React.Fragment key={cardIndex}>
-                                            {card}
-                                        </React.Fragment>
-                                    ))}
-                                    <div className="new-card-button" onClick={() => addNewCard(index)}>+ Nowa kartka</div>
+                                    {isCardEditing && stageEditIndex == stage.id ?
+                                        <>
+                                        {stage.cards.map((card, cardIndex) => (
+                                            <React.Fragment key={cardIndex}>
+                                                {card}
+                                            </React.Fragment>
+                                        ))}
+                                        <div className="card" ref={newRef}>
+                                        <div id="card-text"><input id="card-edit"  type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
+                                        <div id="bottom"><button onClick={() =>  {title !== "" ? addNewCard(index) : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
+                                        </div>
+                                        </>
+                                        :
+                                        stage.cards.map((card, cardIndex) => (
+                                            <React.Fragment key={cardIndex}>
+                                                {card}
+                                            </React.Fragment>
+                                        ))
+                                    }
+                                    {isCardEditing && stageEditIndex == stage.id ?
+                                    <></>
+                                    :
+                                    <div className="new-card-button" onClick={() => handleTempCard(stage.id)}>+ Nowa kartka</div>
+                                    }
                                 </ol>
                             </div>
                         </li>
@@ -63,7 +106,7 @@ function Board () {
                         </div>
                         :
                         <div>
-                            <div className="new-stage-button" onClick={() => setIsStageEditing(true)}>+ Nowy etap</div>
+                            <div className="new-stage-button" onClick={() => {setIsStageEditing(true); setIsCardEditing(false)}}>+ Nowy etap</div>
                         </div>
                         }
                         
