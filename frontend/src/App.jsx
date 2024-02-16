@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Header from './Header.jsx';
-import Board from './Board.jsx';
+import Dashboard from './Dashboard.jsx';
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     return (
       <>
         <Header user={loggedUser}/>
-        <Board />
+        <Dashboard />
       </>
     )
   }

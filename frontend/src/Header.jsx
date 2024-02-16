@@ -17,6 +17,11 @@ function Header(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    function handleBackToDashboard() {
+        window.localStorage.removeItem("boardOpen");
+        window.location.reload(false);
+    }
+
     function Logout(e) {
         e.preventDefault();
         client.post(
@@ -85,7 +90,7 @@ function Header(props) {
             <>
                 <header>
                     <div className="logo">
-                        <img src={Logo} alt="Logo" />
+                        <img src={Logo} alt="Logo" onClick={() => handleBackToDashboard()}/>
                     </div>
                     <button className="login-button" onClick={e => Logout(e)}>Wyloguj się</button>
                 </header>

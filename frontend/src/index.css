@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: #f8d2a0;
+  background-color: hsla(0, 0%, 20%, 0.5);
 }
 
 header {
@@ -11,11 +11,12 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #333;
+  background-color: hsl(0, 0%, 20%);
   color: #fff;
 }
 .logo {
   margin-right: auto;
+  cursor: pointer;
 }
 
 .logo img {
@@ -223,4 +224,61 @@ header {
   background-color: #007bff;
   text-align: center;
   font-size: xx-large;
+}
+
+.dashboard {
+  height: auto;
+  /* border: 1px solid; */
+
+  padding: 20px;
+}
+
+.dashboard h1 {
+  text-align: center;
+}
+.dashboard-board-list {
+  display: inline-block;
+}
+
+.dashboard-board {
+  display: inline-block;
+  width: 320px;
+  height: 180px;
+  border: 3px solid grey;
+  border-radius: 12px;
+  box-shadow: 5px 5px 5px black;
+  margin: 12px;
+}
+
+.dashboard-board:hover {
+  box-shadow: 8px 8px 8px gray;
+  border: 3px solid black;
+  cursor: pointer;
+}
+
+#first {
+  background-image: url("assets/bg.jpg");
+  background-size: 320px 180px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#second {
+  background-image: url("assets/bg.jpg");
+  background-size: 320px 180px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+#new-board {
+  display: flex;
+  height: auto;
+  align-items: center;
+  justify-content: space-around;
+}
+#new-board h2 {
+  text-align: center;
+}
+
+.dashboard-board h2 {
+  margin: 5px 0 0 5px;
+  color: white;
 }
