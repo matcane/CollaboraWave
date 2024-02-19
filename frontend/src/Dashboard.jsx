@@ -1,5 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Board from './Board.jsx';
+import axios from 'axios';
+
+
+let acces = window.localStorage.getItem("access_token");
+
+const client = axios.create({
+     baseURL: "http://127.0.0.1:8000",
+     headers: {Authorization: `Bearer ${acces}`}
+   });
 
 
 function Dashboard () {
@@ -8,6 +17,23 @@ function Dashboard () {
     function handleNewBoard() {
         window.localStorage.setItem("boardOpen", true);
         window.location.reload(false);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+
+    const fetchData = async () => {
+        try {
+            const response = await client.get("/api/home/", {withCredentials: true});
+            console.log(response);
+        } catch (error) {
+            const refreshToken = await client.post("/token/refresh/", {refresh: window.localStorage.getItem("refresh_token")});
+            window.localStorage.setItem('access_token', refreshToken.data.access);
+            window.localStorage.setItem('refresh_token', refreshToken.data.refresh);
+            window.location.reload(false);
+        }
     }
 
     return(

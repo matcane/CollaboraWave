@@ -25,7 +25,9 @@ function Header(props) {
     function Logout(e) {
         e.preventDefault();
         client.post(
-            "/api/logout/",
+            "/api/logout/", {
+                refresh_token:localStorage.getItem('refresh_token')
+                },
             {withCredentials: true}
         ).then(function(res) {
             window.localStorage.removeItem("isLogged");
@@ -37,17 +39,22 @@ function Header(props) {
         e.preventDefault();
         console.log(password);
         client.post(
-          "/api/login/",
+          "/token/",
           {
             username: username,
             password: password
           }
         ).then(function(res) {
+            window.localStorage.clear();
+            window.localStorage.setItem('access_token', res.data.access);
+            window.localStorage.setItem('refresh_token', res.data.refresh);
+            //axios.defaults.headers.common['Authorization'] = `Bearer ${res.data['access']}`;
             window.localStorage.setItem("isLogged", true);
             setUsername("");
             setPassword("");
             setLoginFormVisibility(false);
             window.location.reload(false);
+            console.log(res);
         }).catch(function(error) {
             console.log(error.response.data);
         });
