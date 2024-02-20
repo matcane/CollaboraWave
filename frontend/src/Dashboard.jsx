@@ -13,9 +13,17 @@ const client = axios.create({
 
 function Dashboard () {
     let OpenBoard = window.localStorage.getItem("boardOpen");
+    const [boards, setBoards] = useState([]);
 
     function handleNewBoard() {
+        // window.localStorage.setItem("boardOpen", true);
+        // window.localStorage.setItem("boardId", );
+        // window.location.reload(false);
+    }
+
+    function handleOpenBoard(id) {
         window.localStorage.setItem("boardOpen", true);
+        window.localStorage.setItem("boardId", id);
         window.location.reload(false);
     }
 
@@ -26,8 +34,8 @@ function Dashboard () {
 
     const fetchData = async () => {
         try {
-            const response = await client.get("/api/home/", {withCredentials: true});
-            console.log(response);
+            const response = await client.get("/api/board_list/", {withCredentials: true});
+            setBoards(response.data);
         } catch (error) {
             const refreshToken = await client.post("/token/refresh/", {refresh: window.localStorage.getItem("refresh_token")});
             window.localStorage.setItem('access_token', refreshToken.data.access);
@@ -44,12 +52,11 @@ function Dashboard () {
         <div className="dashboard">
         <h1>Panel główny</h1>
         <div className="dashboard-board-list">
-            <div className="dashboard-board" id="first">
-                <h2>Board Title</h2>
-            </div>
-            <div className="dashboard-board" id="second">
-                <h2>Board Title</h2>
-            </div>
+            {boards.map((board, index) => (
+                <div className="dashboard-board" id="first" key={board.id} onClick={() => handleOpenBoard(board.id)}>
+                <h2>{board.title}</h2>
+                </div>
+            ))}
             <div className="dashboard-board" onClick={() => handleNewBoard()}>
                 <div id="new-board">
                     <h2>+ Nowa tablica</h2>

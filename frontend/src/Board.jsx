@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Card from "./Card.jsx";
+import axios from 'axios';
+
+let acces = window.localStorage.getItem("access_token");
+
+const client = axios.create({
+     baseURL: "http://127.0.0.1:8000",
+     headers: {Authorization: `Bearer ${acces}`}
+   });
 
 function Board () {
     const [stages, setStages] = useState([]);
@@ -12,6 +20,7 @@ function Board () {
     const [newStage, setNewStage] = useState(false);
     const newRef = useRef(null);
 
+
     useEffect(() => {
         console.log(newRef);
         document.addEventListener("mousedown", handleOutsideClick);
@@ -19,6 +28,22 @@ function Board () {
           document.removeEventListener("mousedown", handleOutsideClick);
         };
       });
+    
+    useEffect(() => {
+        fetchDataStage();
+        
+      }, []);
+
+    const fetchDataStage = async () => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.get("/api/board/" + boardId + "/stages/", {withCredentials: true});
+            setStages(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     function hideNewCard(index) {
         setIsCardExistingEditing(true);
@@ -29,20 +54,20 @@ function Board () {
     function unhideNewCard() {
         setIsCardExistingEditing(false);
         console.log("CO JEST");
+        console.log(stages);
     }
 
 
     const addNewCard = (stageIndex) => {
         setIsCardEditing(false);
         setTitle("");
-        const cardinfo = { editState: false, title: title, stageIndex: stageIndex, hideNewCard: hideNewCard, unhideNewCard: unhideNewCard };
-        const newCard = <Card key={stages[stageIndex].cards.length} info={cardinfo}/>;
+        const cardinfo = {title: title, stageIndex: stageIndex};
         
         const updatedStages = stages.map((stage, index) => {
             if (index === stageIndex) {
                 return {
                     ...stage,
-                    cards: [...stage.cards, newCard]
+                    cards: [...stage.cards, cardinfo]
                 };
             }
             return stage;
@@ -52,8 +77,8 @@ function Board () {
 
     const addNewStage = () => {
         const newStage = {
-            id: stages.length,
-            name: stageName,
+            id: stages.length+1,
+            title: stageName,
             cards: []
         };
         setStages([...stages, newStage]);
@@ -92,7 +117,7 @@ function Board () {
     setStages(prevStages => {
         return prevStages.map(stage => {
             if (stage.id === stageId) {
-                return { ...stage, name: stageName };
+                return { ...stage, title: stageName };
             } else {
                 return stage;
             }
@@ -114,7 +139,7 @@ function Board () {
             <div>
                 <ol className="board">
                     {stages.map((stage, index) => (
-                        <li className="stage" key={stage.id}>
+                        <li className="stage" key={index}>
                             <div>
                                 {isStageEditing && stageEditIndex == stage.id && !newStage ? 
                                     <div className="stage-title" ref={newRef}>
@@ -124,16 +149,14 @@ function Board () {
                                     </div>
                                     :
                                     <div className="stage-title" onDoubleClick={() => handleEditStageTitle(stage)}>
-                                    <p>{stage.name}</p>
+                                    <p>{stage.title}</p>
                                     </div>
                                 }
                                 <ol className="stage-list">
                                     {isCardEditing && stageEditIndex == stage.id ?
                                         <>
                                         {stage.cards.map((card, cardIndex) => (
-                                            <React.Fragment key={cardIndex}>
-                                                {card}
-                                            </React.Fragment>
+                                            <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard}/>
                                         ))}
                                         <div className="card" ref={newRef}>
                                         <div id="card-text"><textarea id="card-edit"  type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
@@ -142,9 +165,7 @@ function Board () {
                                         </>
                                         :
                                         stage.cards.map((card, cardIndex) => (
-                                            <React.Fragment key={cardIndex}>
-                                                {card}
-                                            </React.Fragment>
+                                            <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard}/>
                                         ))
                                     }
                                     {isCardEditing && stageEditIndex == stage.id || isStageEditing && stageEditIndex == stage.id || isCardExistingEditing && stageEditIndex == stage.id ?
