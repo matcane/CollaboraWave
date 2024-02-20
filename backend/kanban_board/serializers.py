@@ -22,10 +22,19 @@ class BoardModelSerializer(serializers.ModelSerializer):
 
 
 class StageModelSerializer(serializers.ModelSerializer):
+    cards = serializers.SerializerMethodField()
+
     class Meta:
         model = Stage
-        fields = ['id', 'title', 'board']
+        fields = ['id', 'title', 'cards']
         id = serializers.ReadOnlyField()
+
+    def get_cards(self, obj):
+        cards = obj.cards.all()
+        serialized_cards = CardModelSerializer(cards, many=True).data
+        for card_data in serialized_cards:
+            card_data.pop('stage', None)
+        return serialized_cards
 
 
 class CardModelSerializer(serializers.ModelSerializer):

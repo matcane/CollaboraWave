@@ -126,7 +126,7 @@ def stage_list(request, board_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = StageModelSerializer(stages, data=request.data).data
+        serializer = StageModelSerializer(stages, many=True).data
         return Response(serializer, status=status.HTTP_200_OK)
 
 
