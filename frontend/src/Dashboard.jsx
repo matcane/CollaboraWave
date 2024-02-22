@@ -13,12 +13,18 @@ const client = axios.create({
 
 function Dashboard () {
     let OpenBoard = window.localStorage.getItem("boardOpen");
+    const [isNewBoard, setIsNewBoard] = useState(false);
+    const [boardTitle, setBoardTitle] = useState("");
     const [boards, setBoards] = useState([]);
 
     function handleNewBoard() {
-        // window.localStorage.setItem("boardOpen", true);
-        // window.localStorage.setItem("boardId", );
-        // window.location.reload(false);
+        newBoardRequest();
+        const newBoard = {
+            title: boardTitle,
+        };
+        setBoards([...boards, newBoard]);
+        setBoardTitle("");
+        setIsNewBoard(false);
     }
 
     function handleOpenBoard(id) {
@@ -44,6 +50,14 @@ function Dashboard () {
         }
     }
 
+    const newBoardRequest = async () => {
+        try {
+            const response = await client.post("/api/board_create/", {title: boardTitle}, {withCredentials: true});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return(
         <>
         {OpenBoard ? 
@@ -57,11 +71,20 @@ function Dashboard () {
                 <h2>{board.title}</h2>
                 </div>
             ))}
-            <div className="dashboard-board" onClick={() => handleNewBoard()}>
+            {isNewBoard ? 
+            <div className="dashboard-board" id="second">
+                <textarea autoFocus id="card-edit" type="text" name="stage-title" required value={boardTitle} onChange={e => setBoardTitle(e.target.value)}/>
+                <button onClick={() => {boardTitle ? handleNewBoard() : setIsNewBoard(true)}}>Zapisz</button>
+                <button onClick={() => setIsNewBoard(false)}>Zamknij</button>
+            </div>
+            :
+            <div className="dashboard-board" onClick={() => setIsNewBoard(true)}>
                 <div id="new-board">
                     <h2>+ Nowa tablica</h2>
                 </div>
             </div>
+            }
+            
         </div>
     </div>
         }

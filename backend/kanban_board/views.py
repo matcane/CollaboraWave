@@ -148,7 +148,7 @@ def stage_detail(request, board_id, stage_id):
 @permission_classes([IsAuthenticated])
 def stage_create(request, board_id):
     try:
-        board = Board.objects.get(id=board_id)
+        board = Board.objects.get(pk=board_id)
     except Board.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -233,7 +233,7 @@ def card_create(request, board_id, stage_id):
     if request.method == 'POST':
         serializer = CardModelSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(stage=stage)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

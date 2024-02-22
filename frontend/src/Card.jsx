@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 function Card (props) {
     const [isCardEditing, setIsCardEditing] = useState(props.editState);
     const [title, setTitle] = useState(props.info.title);
+    const [savedtitle, setSavedTitle] = useState(props.info.title);
     const newRef = useRef(null);
 
     useEffect(() => {
@@ -18,6 +19,9 @@ function Card (props) {
         if (newRef.current && !newRef.current.contains(e.target)) {
             setIsCardEditing(false);
             props.unhideNewCard();
+            if (savedtitle != title) {
+              setTitle(savedtitle);
+            }
         }
       };
 
@@ -27,21 +31,30 @@ function Card (props) {
         props.hideNewCard(props.stageIndex);
     }
 
+    function handleTitleEdit() {
+      console.log("AGH");
+      setIsCardEditing(false);
+      props.unhideNewCard();
+    };
+
     return(
-        <div className="card" onDoubleClick={() => handleDoubleClick()}>
+        <>
                 {isCardEditing 
                 ? 
-                <>
-                <div id="card-text" ref={newRef}><textarea autoFocus id="card-edit"  type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
-                <div id="bottom"><button onClick={() => {title !== "" ? setIsCardEditing(false) : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
-                </> 
+                <div className="card" ref={newRef}>
+                <div id="card-text"><textarea autoFocus id="card-edit" type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
+                <div id="bottom"><button onClick={() => {title ? handleTitleEdit() : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
+                </div> 
                 : 
-                <><div id="top">🔼</div>
+                <div className="card" onDoubleClick={() => handleDoubleClick()}>
+                <div id="top">🔼</div>
                 <div id="card-text"><p>{title}</p></div>
-                <div id="bottom">🔽</div></>}
+                <div id="bottom">🔽</div>
+                </div>
+                }
                 
             
-        </div>
+        </>
     )
 }
 

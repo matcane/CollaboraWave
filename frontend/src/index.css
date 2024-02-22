@@ -237,7 +237,8 @@ header {
   text-align: center;
 }
 .dashboard-board-list {
-  display: inline-block;
+  display: inline-flex;
+  flex-wrap: wrap;
 }
 
 .dashboard-board {
@@ -263,10 +264,7 @@ header {
   background-position: center;
 }
 #second {
-  background-image: url("assets/bg.jpg");
-  background-size: 320px 180px;
-  background-repeat: no-repeat;
-  background-position: center;
+  top: 10%;
 }
 #new-board {
   display: flex;

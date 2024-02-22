@@ -39,7 +39,26 @@ function Board () {
         try {
             const response = await client.get("/api/board/" + boardId + "/stages/", {withCredentials: true});
             setStages(response.data);
-            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const newStageRequest = async () => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.post("/api/board/" + boardId + "/stage_create/", {title: stageName}, {withCredentials: true});
+            setNewStageData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const newCardRequest = async (stageIndex) => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.post("/api/board/" + boardId + "/stage_detail/" + stageIndex + "/card_create/", {title: title, stage: stageIndex}, {withCredentials: true});
+            setNewCardData(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -48,20 +67,18 @@ function Board () {
     function hideNewCard(index) {
         setIsCardExistingEditing(true);
         setStageEditIndex(index);
-        console.log("DONE");
     }
 
     function unhideNewCard() {
         setIsCardExistingEditing(false);
-        console.log("CO JEST");
-        console.log(stages);
     }
 
 
-    const addNewCard = (stageIndex) => {
+    const addNewCard = (stageIndex, stageId) => {
+        newCardRequest(stageId);
         setIsCardEditing(false);
         setTitle("");
-        const cardinfo = {title: title, stageIndex: stageIndex};
+        const cardinfo = {title: title};
         
         const updatedStages = stages.map((stage, index) => {
             if (index === stageIndex) {
@@ -76,16 +93,18 @@ function Board () {
     };
 
     const addNewStage = () => {
+        const lastStage = stages[stages.length - 1];
+        newStageRequest();
         const newStage = {
-            id: stages.length+1,
+            id: lastStage ? lastStage.id + 1 : 0,
             title: stageName,
             cards: []
         };
         setStages([...stages, newStage]);
         setStageName("");
         setIsStageEditing(false);
-        //setNewStage(false);
-        console.log(stages);
+        setNewStageData();
+        setStageEditIndex();
     };
 
     function handleTempCard(index) {
@@ -108,7 +127,7 @@ function Board () {
             setStageEditIndex(index.id);
             setIsStageEditing(true);
             setIsCardEditing(false);
-            setStageName(index.name);
+            setStageName(index.title);
         }
     }
 
@@ -144,7 +163,7 @@ function Board () {
                                 {isStageEditing && stageEditIndex == stage.id && !newStage ? 
                                     <div className="stage-title" ref={newRef}>
                                     <textarea autoFocus id="card-edit" type="text" name="stage-title" required value={stageName} onChange={e => setStageName(e.target.value)}/>
-                                    <button onClick={() => {stageName !== "" ? changeStageName(stageName, stage.id) : setIsStageEditing(true);}}>Zapisz</button>
+                                    <button onClick={() => {stageName ? changeStageName(stageName, stage.id) : setIsStageEditing(true);}}>Zapisz</button>
                                     <button onClick={() => setIsStageEditing(false)}>Zamknij</button>
                                     </div>
                                     :
@@ -160,7 +179,7 @@ function Board () {
                                         ))}
                                         <div className="card" ref={newRef}>
                                         <div id="card-text"><textarea id="card-edit"  type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
-                                        <div id="bottom"><button onClick={() =>  {title !== "" ? addNewCard(index) : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
+                                        <div id="bottom"><button onClick={() =>  {title ? addNewCard(index, stage.id) : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
                                         </div>
                                         </>
                                         :
