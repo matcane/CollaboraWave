@@ -9,8 +9,8 @@ urlpatterns = [
     path('board_list/', views.board_list, name='board_list'),
     path('board/<int:id>/', views.board_detail, name='board_detail'),
     path('board_create/', views.board_create, name='board_create'),
-    path('board_update/', views.board_update, name='board_update'),
-    path('board_delete/<int:id>', views.board_delete, name='board_delete'),
+    path('board_update/<int:id>/', views.board_update, name='board_update'),
+    path('board_delete/<int:id>/', views.board_delete, name='board_delete'),
 
     path('board/<int:board_id>/stages/', views.stage_list, name='stages_list'),
     path('board/<int:board_id>/stage_detail/<int:stage_id>/', views.stage_detail, name='stages_detail'),

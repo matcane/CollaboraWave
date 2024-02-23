@@ -256,15 +256,16 @@ header {
   border: 3px solid black;
   cursor: pointer;
 }
+.board-fill-open {
+  height: 100%;
+}
 
 #first {
-  background-image: url("assets/bg.jpg");
-  background-size: 320px 180px;
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: rgba(120, 120, 235, 0.5);
 }
 #second {
   top: 10%;
+  background-color: rgba(55, 55, 211, 0.5);
 }
 #new-board {
   display: flex;

@@ -14,6 +14,8 @@ const client = axios.create({
 function Dashboard () {
     let OpenBoard = window.localStorage.getItem("boardOpen");
     const [isNewBoard, setIsNewBoard] = useState(false);
+    const [isEditBoard, setIsEditBoard] = useState(false);
+    const [boardIndex, setBoardIndex] = useState();
     const [boardTitle, setBoardTitle] = useState("");
     const [boards, setBoards] = useState([]);
 
@@ -27,10 +29,31 @@ function Dashboard () {
         setIsNewBoard(false);
     }
 
+    function handleEditBoard(board, index) {
+        setIsEditBoard(true);
+        setBoardIndex(index);
+        setBoardTitle(board.title);
+    }
+
     function handleOpenBoard(id) {
         window.localStorage.setItem("boardOpen", true);
         window.localStorage.setItem("boardId", id);
         window.location.reload(false);
+    }
+
+    function editBoardTitle(title, boardId) {
+        updateBoardRequest(title, boardId);
+        setBoardTitle("");
+        setIsEditBoard(false);
+        setBoards(prevBoards => {
+            return prevBoards.map(board => {
+                if (board.id === boardId) {
+                    return { ...board, title: title };
+                } else {
+                    return board;
+                }
+            });
+        });
     }
 
     useEffect(() => {
@@ -58,6 +81,14 @@ function Dashboard () {
         }
     }
 
+    const updateBoardRequest = async (title, boardId) => {
+        try {
+            const response = await client.put("/api/board_update/" + boardId + "/", {title: title}, {withCredentials: true});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return(
         <>
         {OpenBoard ? 
@@ -66,11 +97,23 @@ function Dashboard () {
         <div className="dashboard">
         <h1>Panel główny</h1>
         <div className="dashboard-board-list">
-            {boards.map((board, index) => (
-                <div className="dashboard-board" id="first" key={board.id} onClick={() => handleOpenBoard(board.id)}>
-                <h2>{board.title}</h2>
-                </div>
-            ))}
+                {boards.map((board, index) => (
+                    <div className="dashboard-board" id="first" key={index}>
+                        {isEditBoard && boardIndex == index ? 
+                        <>
+                        <textarea autoFocus id="card-edit" type="text" name="stage-title" required value={boardTitle} onChange={e => setBoardTitle(e.target.value)}/>
+                        <button onClick={() => {boardTitle ? editBoardTitle(boardTitle, board.id) : setIsEditBoard(true)}}>Zapisz</button>
+                        <button onClick={() => setIsEditBoard(false)}>Zamknij</button>
+                        </>
+                        : 
+                        <>
+                        <h2 onDoubleClick={() => handleEditBoard(board, index)}>{board.title}</h2>
+                        <dir className="board-fill-open" onClick={() => handleOpenBoard(board.id)}></dir>
+                        </>
+                        }
+                    </div>
+                ))}
+
             {isNewBoard ? 
             <div className="dashboard-board" id="second">
                 <textarea autoFocus id="card-edit" type="text" name="stage-title" required value={boardTitle} onChange={e => setBoardTitle(e.target.value)}/>

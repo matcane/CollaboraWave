@@ -48,7 +48,15 @@ function Board () {
         const boardId = window.localStorage.getItem("boardId");
         try {
             const response = await client.post("/api/board/" + boardId + "/stage_create/", {title: stageName}, {withCredentials: true});
-            setNewStageData(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const updateStageRequest = async (stageName, stageId) => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.put("/api/board/" + boardId + "/stage_update/" + stageId + "/", {title: stageName}, {withCredentials: true});
         } catch (error) {
             console.log(error);
         }
@@ -58,7 +66,16 @@ function Board () {
         const boardId = window.localStorage.getItem("boardId");
         try {
             const response = await client.post("/api/board/" + boardId + "/stage_detail/" + stageIndex + "/card_create/", {title: title, stage: stageIndex}, {withCredentials: true});
-            setNewCardData(response.data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const updateCardRequest = async (title, stageId, cardId) => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.put("/api/board/" + boardId + "/stage_detail/" + stageId + "/card_update/" + cardId + "/", {title: title}, {withCredentials: true});
         } catch (error) {
             console.log(error);
         }
@@ -69,27 +86,37 @@ function Board () {
         setStageEditIndex(index);
     }
 
-    function unhideNewCard() {
+    function unhideNewCard(title, stageId, cardId, isClicked) {
         setIsCardExistingEditing(false);
+        if (isClicked==true) {
+            updateCardRequest(title, stageId, cardId);
+            console.log("TRUE");
+        }
+        else {
+            console.log("FALSE");
+            console.log(isClicked);
+        }
     }
 
 
-    const addNewCard = (stageIndex, stageId) => {
-        newCardRequest(stageId);
+    const addNewCard  = async (stageIndex, stageId) => {
+        const tempCard = await newCardRequest(stageId);
         setIsCardEditing(false);
         setTitle("");
-        const cardinfo = {title: title};
-        
+
+        const cardinfo = {id: tempCard.id, title: title, stage: stageId};
+    
         const updatedStages = stages.map((stage, index) => {
-            if (index === stageIndex) {
-                return {
-                    ...stage,
-                    cards: [...stage.cards, cardinfo]
-                };
-            }
-            return stage;
+        if (index === stageIndex) {
+            return {
+                ...stage,
+                cards: [...stage.cards, cardinfo]
+            };
+        }
+        return stage;
         });
         setStages(updatedStages);
+        console.log(tempCard);
     };
 
     const addNewStage = () => {
@@ -132,16 +159,17 @@ function Board () {
     }
 
     function changeStageName(stageName, stageId) {
-    setIsStageEditing(false);
-    setStages(prevStages => {
-        return prevStages.map(stage => {
-            if (stage.id === stageId) {
-                return { ...stage, title: stageName };
-            } else {
-                return stage;
-            }
+        updateStageRequest(stageName, stageId);
+        setIsStageEditing(false);
+        setStages(prevStages => {
+            return prevStages.map(stage => {
+                if (stage.id === stageId) {
+                    return { ...stage, title: stageName };
+                } else {
+                    return stage;
+                }
+            });
         });
-    });
 }
 
 

@@ -91,12 +91,12 @@ def board_create(request):
 @permission_classes([IsAuthenticated])
 def board_update(request, id):
     try:
-        board = Board.object.get(id=id)
+        board = Board.objects.get(pk=id)
     except Board.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        serializer = BoardModelSerializer(board, data=request.data)
+        serializer = BoardModelSerializer(board, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -165,7 +165,7 @@ def stage_create(request, board_id):
 def stage_update(request, board_id, stage_id):
     try:
         board = Board.objects.get(id=board_id)
-        stage = Stage.objects.filter(board=board).filter(id=stage_id)
+        stage = Stage.objects.get(pk=stage_id)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -243,13 +243,13 @@ def card_create(request, board_id, stage_id):
 def card_update(request, board_id, stage_id, card_id):
     try:
         board = Board.objects.get(id=board_id)
-        stage = Stage.objects.filter(board=board).filter(id=stage_id)
-        card = stage.cards.filter(id=card_id)
+        stage = Stage.objects.get(id=stage_id)
+        card = Card.objects.get(id=card_id)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        serializer = CardModelSerializer(card, data=request.data)
+        serializer = CardModelSerializer(card, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(stage=stage)
             return Response(serializer.data, status=status.HTTP_200_OK)

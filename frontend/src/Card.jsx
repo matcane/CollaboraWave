@@ -31,10 +31,10 @@ function Card (props) {
         props.hideNewCard(props.stageIndex);
     }
 
-    function handleTitleEdit() {
+    function handleTitleEdit(title) {
       console.log("AGH");
       setIsCardEditing(false);
-      props.unhideNewCard();
+      props.unhideNewCard(title, props.stageIndex, props.info.id, true);
     };
 
     return(
@@ -43,13 +43,13 @@ function Card (props) {
                 ? 
                 <div className="card" ref={newRef}>
                 <div id="card-text"><textarea autoFocus id="card-edit" type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
-                <div id="bottom"><button onClick={() => {title ? handleTitleEdit() : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
+                <div id="bottom"><button onClick={() => {title ? handleTitleEdit(title, true) : setIsCardEditing(true)}}>Dodaj</button><button onClick={() => setIsCardEditing(false)}>Zamknij</button></div>
                 </div> 
                 : 
                 <div className="card" onDoubleClick={() => handleDoubleClick()}>
-                <div id="top">🔼</div>
+                {/* <div id="top">🔼</div> */}
                 <div id="card-text"><p>{title}</p></div>
-                <div id="bottom">🔽</div>
+                {/* <div id="bottom">🔽</div> */}
                 </div>
                 }
                 
