@@ -22,7 +22,6 @@ function Board () {
 
 
     useEffect(() => {
-        console.log(newRef);
         document.addEventListener("mousedown", handleOutsideClick);
         return () => {
           document.removeEventListener("mousedown", handleOutsideClick);
@@ -62,6 +61,15 @@ function Board () {
         }
     }
 
+    const deleteStageRequest = async (stageId) => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.delete("/api/board/" + boardId + "/stage_delete/" + stageId + "/", {withCredentials: true});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const newCardRequest = async (stageIndex) => {
         const boardId = window.localStorage.getItem("boardId");
         try {
@@ -80,6 +88,15 @@ function Board () {
             console.log(error);
         }
     }
+
+    const deleteCardRequest = async (stageId, cardId) => {
+        const boardId = window.localStorage.getItem("boardId");
+        try {
+            const response = await client.delete("/api/board/" + boardId + "/stage_detail/" + stageId + "/card_delete/" + cardId + "/", {withCredentials: true});
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     function hideNewCard(index) {
         setIsCardExistingEditing(true);
@@ -90,11 +107,6 @@ function Board () {
         setIsCardExistingEditing(false);
         if (isClicked==true) {
             updateCardRequest(title, stageId, cardId);
-            console.log("TRUE");
-        }
-        else {
-            console.log("FALSE");
-            console.log(isClicked);
         }
     }
 
@@ -116,7 +128,6 @@ function Board () {
         return stage;
         });
         setStages(updatedStages);
-        console.log(tempCard);
     };
 
     const addNewStage = () => {
@@ -130,7 +141,6 @@ function Board () {
         setStages([...stages, newStage]);
         setStageName("");
         setIsStageEditing(false);
-        setNewStageData();
         setStageEditIndex();
     };
 
@@ -156,6 +166,24 @@ function Board () {
             setIsCardEditing(false);
             setStageName(index.title);
         }
+    }
+
+    function handleDeleteStage(stageId) {
+        deleteStageRequest(stageId);
+        setIsStageEditing(false);
+        setStages(prevStages => {
+            return prevStages.filter(stage => stage.id !== stageId);
+        });
+    }
+
+    function handleDeleteCard(stageId, cardId) {
+        deleteCardRequest(stageId, cardId);
+        setIsCardExistingEditing(false);
+        setStages(prevStages => prevStages.map(stage =>
+            stage.id === stageId
+                ? { ...stage, cards: stage.cards.filter(card => card.id !== cardId) }
+                : stage
+        ));
     }
 
     function changeStageName(stageName, stageId) {
@@ -192,7 +220,7 @@ function Board () {
                                     <div className="stage-title" ref={newRef}>
                                     <textarea autoFocus id="card-edit" type="text" name="stage-title" required value={stageName} onChange={e => setStageName(e.target.value)}/>
                                     <button onClick={() => {stageName ? changeStageName(stageName, stage.id) : setIsStageEditing(true);}}>Zapisz</button>
-                                    <button onClick={() => setIsStageEditing(false)}>Zamknij</button>
+                                    <button onClick={() => handleDeleteStage(stage.id)}>Usuń</button>
                                     </div>
                                     :
                                     <div className="stage-title" onDoubleClick={() => handleEditStageTitle(stage)}>
@@ -203,7 +231,7 @@ function Board () {
                                     {isCardEditing && stageEditIndex == stage.id ?
                                         <>
                                         {stage.cards.map((card, cardIndex) => (
-                                            <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard}/>
+                                            <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard} handleDeleteCard={handleDeleteCard}/>
                                         ))}
                                         <div className="card" ref={newRef}>
                                         <div id="card-text"><textarea id="card-edit"  type="text" name="card-title" required value={title} onChange={e => setTitle(e.target.value)}/></div>
@@ -212,7 +240,7 @@ function Board () {
                                         </>
                                         :
                                         stage.cards.map((card, cardIndex) => (
-                                            <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard}/>
+                                            <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard} handleDeleteCard={handleDeleteCard}/>
                                         ))
                                     }
                                     {isCardEditing && stageEditIndex == stage.id || isStageEditing && stageEditIndex == stage.id || isCardExistingEditing && stageEditIndex == stage.id ?

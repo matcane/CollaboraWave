@@ -256,7 +256,14 @@ header {
   border: 3px solid black;
   cursor: pointer;
 }
+
 .board-fill-open {
+  border-radius: 12px;
+  display: flex;
+  height: 84%;
+}
+
+.edit-board-container {
   height: 100%;
 }
 

@@ -107,7 +107,7 @@ def board_update(request, id):
 @permission_classes([IsAuthenticated])
 def board_delete(request, id):
     try:
-        board = Board.object.get(id=id)
+        board = Board.objects.get(id=id)
     except Board.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -262,7 +262,7 @@ def card_delete(request, board_id, stage_id, card_id):
     try:
         board = Board.objects.get(id=board_id)
         stage = Stage.objects.filter(board=board).filter(id=stage_id)
-        card = stage.cards.filter(id=card_id)
+        card = Card.objects.get(id=card_id)
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

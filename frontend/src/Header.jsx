@@ -19,6 +19,7 @@ function Header(props) {
 
     function handleBackToDashboard() {
         window.localStorage.removeItem("boardOpen");
+        window.localStorage.removeItem("boardId");
         window.location.reload(false);
     }
 
