@@ -19,6 +19,7 @@ function Board () {
     const [stageEditIndex, setStageEditIndex] = useState();
     const [newStage, setNewStage] = useState(false);
     const newRef = useRef(null);
+    const stageListRef = useRef(null);
 
 
     useEffect(() => {
@@ -227,7 +228,7 @@ function Board () {
                                     <p>{stage.title}</p>
                                     </div>
                                 }
-                                <ol className="stage-list">
+                                <ol className="stage-list" id={stage.id}>
                                     {isCardEditing && stageEditIndex == stage.id ?
                                         <>
                                         {stage.cards.map((card, cardIndex) => (
@@ -243,10 +244,15 @@ function Board () {
                                             <Card key={cardIndex} stageIndex={stage.id} editState={false} info={card} hideNewCard={hideNewCard} unhideNewCard={unhideNewCard} handleDeleteCard={handleDeleteCard}/>
                                         ))
                                     }
+                                    
+                                </ol>
+                                <ol className="stage-list">
                                     {isCardEditing && stageEditIndex == stage.id || isStageEditing && stageEditIndex == stage.id || isCardExistingEditing && stageEditIndex == stage.id ?
                                     <></>
                                     :
-                                    <div className="new-card-button" onClick={() => handleTempCard(stage.id)}>+ Nowa kartka</div>
+                                    <div className="new-card-button" onClick={() => {
+                                        handleTempCard(stage.id);
+                                    }}>+ Nowa kartka</div>
                                     }
                                 </ol>
                             </div>
