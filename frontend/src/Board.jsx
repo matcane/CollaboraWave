@@ -39,6 +39,7 @@ function Board () {
         try {
             const response = await client.get("/api/board/" + boardId + "/stages/", {withCredentials: true});
             setStages(response.data);
+            console.log(stages);
         } catch (error) {
             console.log(error);
         }
@@ -48,6 +49,11 @@ function Board () {
         const boardId = window.localStorage.getItem("boardId");
         try {
             const response = await client.post("/api/board/" + boardId + "/stage_create/", {title: stageName}, {withCredentials: true});
+            console.log(response.data);
+            setStages([...stages, response.data]);
+            setStageName("");
+            setIsStageEditing(false);
+            setStageEditIndex();
         } catch (error) {
             console.log(error);
         }
@@ -94,6 +100,7 @@ function Board () {
         const boardId = window.localStorage.getItem("boardId");
         try {
             const response = await client.delete("/api/board/" + boardId + "/stage_detail/" + stageId + "/card_delete/" + cardId + "/", {withCredentials: true});
+            return response.data;
         } catch (error) {
             console.log(error);
         }
@@ -117,8 +124,8 @@ function Board () {
         setIsCardEditing(false);
         setTitle("");
 
-        const cardinfo = {id: tempCard.id, title: title, stage: stageId};
-    
+        const cardinfo = {id: tempCard.id, title: title, due_date: tempCard.due_date, description: tempCard.description};
+
         const updatedStages = stages.map((stage, index) => {
         if (index === stageIndex) {
             return {
@@ -132,17 +139,7 @@ function Board () {
     };
 
     const addNewStage = () => {
-        const lastStage = stages[stages.length - 1];
         newStageRequest();
-        const newStage = {
-            id: lastStage ? lastStage.id + 1 : 0,
-            title: stageName,
-            cards: []
-        };
-        setStages([...stages, newStage]);
-        setStageName("");
-        setIsStageEditing(false);
-        setStageEditIndex();
     };
 
     function handleTempCard(index) {
@@ -177,15 +174,19 @@ function Board () {
         });
     }
 
-    function handleDeleteCard(stageId, cardId) {
-        deleteCardRequest(stageId, cardId);
+    const handleDeleteCard = async (stageId, cardId) => {
+        const tempDeleted = await deleteCardRequest(stageId, cardId);
         setIsCardExistingEditing(false);
-        setStages(prevStages => prevStages.map(stage =>
-            stage.id === stageId
-                ? { ...stage, cards: stage.cards.filter(card => card.id !== cardId) }
-                : stage
-        ));
-    }
+      
+        const updatedStages = stages.map((stage) => {
+          if (stage.id === stageId) {
+            stage.cards = stage.cards.filter((card) => card.id !== cardId);
+          }
+          return stage;
+        });
+
+        setStages(updatedStages);
+      };
 
     function changeStageName(stageName, stageId) {
         updateStageRequest(stageName, stageId);

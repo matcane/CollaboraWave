@@ -37,12 +37,6 @@ function Dashboard () {
 
     function handleNewBoard() {
         newBoardRequest();
-        const newBoard = {
-            title: boardTitle,
-        };
-        setBoards([...boards, newBoard]);
-        setBoardTitle("");
-        setIsNewBoard(false);
     }
 
     function handleEditBoard(board, index) {
@@ -101,6 +95,10 @@ function Dashboard () {
     const newBoardRequest = async () => {
         try {
             const response = await client.post("/api/board_create/", {title: boardTitle}, {withCredentials: true});
+            console.log(response.data);
+            setBoards([...boards, response.data]);
+            setBoardTitle("");
+            setIsNewBoard(false);
         } catch (error) {
             console.log(error);
         }

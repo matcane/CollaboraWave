@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Logo from './assets/logo.png'
 import axios from 'axios';
 
+
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
@@ -71,7 +72,7 @@ function Header(props) {
             password: password
           }
         ).then(function(res) {
-            window.localStorage.setItem("isLogged", true);
+            //window.localStorage.setItem("isLogged", true);
             setUsername("");
             setPassword("");
             setRegisterFormVisibility(false);
