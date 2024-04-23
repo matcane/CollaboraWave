@@ -1,0 +1,71 @@
+#head {
+    display: flex;
+    height: 88vh;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("src/assets/Kanban-Boards1.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#head div {
+    font-size: 3.2em;
+    line-height: 1.1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#content-info {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#content-info div {
+    font-size: 3.2em;
+    line-height: 1.1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#content-info button {
+    font-size: 5rem;
+}
+
+#content-list {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url("src/assets/Flashcards-make.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#content-list div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 3.2em;
+    line-height: 1.1;
+}
+
+#content-list li {
+    list-style-type: none;
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 0;
+    margin: 2rem;
+}
+
+#footer {
+    display: flex;
+    justify-content: center;
+}
+
+#footer p {
+    background-color: rgba(0, 0, 0, 0.5);
+}
