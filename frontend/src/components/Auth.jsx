@@ -3,7 +3,6 @@ import { sign_in, sign_up } from '../services/auth';
 import './Auth.css';
 
 function Auth({type, update}) {
-    console.log(type);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 

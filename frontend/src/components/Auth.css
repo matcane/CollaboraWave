@@ -5,7 +5,7 @@
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    background-color: #1a1a1abe
+    background-color: #1a1a1abe;
 }
 
 .auth-form {
@@ -19,6 +19,7 @@
     height: 50%;
     border: 3px solid white;
     border-radius: 12px;
+    background-color: #1a1a1a;
 }
 
 .auth-form-type {
@@ -38,6 +39,6 @@
 .auth-form input {
     color: black;
     font-size: 2rem;
-    margin: 1.15rem;
+    margin: 0.625rem;
     border-radius: 12px;
 }
