@@ -32,4 +32,17 @@ const api = axios.create({
     }
   );
 
+  api.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+    if (401 === error.response.status) {
+        window.localStorage.clear();
+        window.location.reload(false);
+    } else {
+        return Promise.reject(error);
+    }
+  });
+
 export default api
