@@ -1,0 +1,70 @@
+.dashboard {
+    height: auto;
+    padding: 20px;
+}
+
+.dashboard h2 {
+    font-size: 3rem;
+    text-align: center;
+    overflow: auto;
+    height: 80%;
+    margin: 0;
+    scrollbar-width: none;
+}
+
+.dashboard h2:hover {
+    background-color: hsla(211, 100%, 50%, 0.541);
+    
+}
+  
+.dashboard-board-list {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+  
+.dashboard-board {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    height: 180px;
+    border: 3px solid grey;
+    border-radius: 12px;
+    box-shadow: 5px 5px 5px black;
+    margin: 12px;
+    background-color: hsla(211, 100%, 50%, 0.3);
+}
+
+.dashboard-board-new {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 320px;
+    height: 180px;
+    border: 3px solid grey;
+    border-radius: 12px;
+    box-shadow: 5px 5px 5px black;
+    margin: 12px;
+    background-color: hsla(211, 100%, 50%, 0.2);
+}
+
+.dashboard-board-new h1 {
+    text-align: center;
+}
+
+  
+.dashboard-board:hover, .dashboard-board-new:hover {
+    background-color: hsla(211, 100%, 50%, 0.541);
+    box-shadow: 8px 8px 8px gray;
+    border: 3px solid black;
+    cursor: pointer;
+}
+
+.dashboard-board-edit {
+    height: 20%;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.dashboard-board-edit:hover {
+    background-color: hsla(211, 100%, 50%, 0.541);
+}

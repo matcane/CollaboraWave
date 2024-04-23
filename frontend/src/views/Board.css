@@ -1,0 +1,130 @@
+.board {
+    display: flex;
+    flex-direction: row;
+    height: 85vh;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+  
+.stage {
+    list-style-type: none;
+    height: 83vh;
+    width: 300px;
+    border: 3px solid rgba(128, 128, 128, 0);
+    margin: 10px;
+    border-radius: 15px;
+  }
+  
+.stage-title {
+    text-align: center;
+    background-color: hsla(211, 100%, 50%, 0.4);
+    border: 3px solid hsl(0, 0%, 50%);
+    width: 300px;
+    border-radius: 12px;
+    overflow-x: auto;
+    cursor: pointer;
+  }
+  
+.stage-title:hover {
+    border: 3px solid rgb(0, 0, 0);
+  }
+  
+.stage ol {
+    padding: 0;
+    list-style-type: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    max-height: 68vh;
+  }
+
+  
+.card {
+    background-color: hsla(211, 100%, 50%, 0.3);
+    width: auto;
+    height: auto;
+    min-height: 120px;
+    margin: 10px;
+    border: 3px solid hsl(0, 0%, 50%);
+    position: relative;
+    overflow-wrap: break-word;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.card p {
+    margin: 10px;
+    min-height: 50px;
+}
+
+.card:hover {
+    border: 3px solid rgb(0, 0, 0);
+}
+
+.new-card-button {
+    background-color: hsla(211, 100%, 50%, 0.2);
+    width: auto;
+    height: 50px;
+    margin: 10px;
+    padding: 15px;
+    border: 3px solid hsl(0, 0%, 50%);
+    position: relative;
+    cursor: pointer;
+}
+
+.new-stage-button {
+    background-color: hsla(211, 100%, 50%, 0.2);
+    width: 300px;
+    height: 50px;
+    margin: 5px 5px 10px 10px;
+    padding: 15px;
+    border: 3px solid hsl(0, 0%, 50%);
+    position: relative;
+    cursor: pointer;
+}
+
+.new-stage {
+    list-style: none;
+    width: 300px;
+    margin: 10px;
+}
+
+.new-stage-button:hover {
+    border: 3px solid hsl(0, 0%, 0%);
+}
+  
+.new-card-button:hover {
+    background-color: hsla(211, 100%, 50%, 0.4);
+}
+
+.size-change {
+    position: fixed;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 24px;
+}
+
+.size-change:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.minus {
+    bottom: 20px;
+    right: 95px;
+    width: 50px;
+    height: 50px;
+}
+
+.plus {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+}

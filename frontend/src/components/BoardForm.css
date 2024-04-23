@@ -1,0 +1,18 @@
+.board-form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.board-item-input {
+    background-color: hsla(211, 100%, 50%, 0.3);
+    width: 100%;
+    min-height: 120px;
+    font-size: 1.5rem;
+    box-sizing: border-box;
+}
+
+.board-form-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}

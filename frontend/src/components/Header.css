@@ -1,0 +1,16 @@
+header h1 {
+    margin: 1rem;
+}
+
+header span {
+    margin: 0;
+}
+
+.app-title {
+    color: #469efc;
+    cursor: pointer;
+}
+
+.spacer {
+    color: yellow;
+}
