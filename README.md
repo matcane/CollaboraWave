@@ -19,11 +19,13 @@ CollaboraWave is a project management application based on the Kanban concept. W
 3. Activate the Python environment `source env/bin/activate`
 4. Navigate to the backend directory: `cd backend`
 5. Install the required Python libraries: `pip install -r requirements.txt`
-6. Run the backend server: `python manage.py runserver`
-7. Navigate to the frontend directory: `cd frontend`
-8. Install the required JavaScript libraries: `npm install`
-9. Start the frontend development server: `npm start`
-10. The application will be available at: `http://localhost:5173/`
+6. Generate `.env` file and set up database: `python getEnv.py`
+7. Run migration: `python manage.py migrate`
+8. Run the backend server: `python manage.py runserver`
+9. Navigate to the frontend directory: `cd frontend`
+10. Install the required JavaScript libraries: `npm install`
+11. Start the frontend development server: `npm start`
+12. The application will be available at: `http://localhost:5173/`
 
 ## RoadMap
 - Forms validation
@@ -33,3 +35,5 @@ CollaboraWave is a project management application based on the Kanban concept. W
 - ...
 
 ## Demo
+
+[![CollaboraWave Demo](http://img.youtube.com/vi/Jwf3pSAsAao/0.jpg)](http://www.youtube.com/watch?v=Jwf3pSAsAao "CollaboraWave Demo")
