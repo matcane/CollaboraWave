@@ -180,7 +180,7 @@ function Board() {
                                 </ol>
                                 <ol>
                                 {((!cardEdit || !stageEdit) && currentStageEditIndex !== index) &&
-                                    <div className="new-card-button" onClick={() => handleNewCard(index)}>+ Nowa kartka</div>
+                                    <div className="new-card-button" onClick={() => handleNewCard(index)}>+ New card</div>
                                 }
                                 </ol>
                             </div>
@@ -193,7 +193,7 @@ function Board() {
                                     <div ref={newRef}><BoardForm type={"add"} item={"stage"} data={{board: board_id}} update={addStage}/></div>
                                 </div>
                                 }
-                            {!stageNew && <div className="new-stage-button" onClick={() => handleNewStage()}>+ Nowy etap</div>}
+                            {!stageNew && <div className="new-stage-button" onClick={() => handleNewStage()}>+ New stage</div>}
                         </div>
                     </li>
                 </ol>
