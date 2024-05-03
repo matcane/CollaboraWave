@@ -33,8 +33,8 @@ import { Card, Input, Button, Typography, IconButton } from "@material-tailwind/
         }
       };
     return (
-        <div className="absolute top-0 bottom-0 flex justify-center items-center w-full h-screen bg-gray-500">
-       <Card color="white" shadow={false} className="p-20">
+        <div className="flex justify-center items-center w-full h-screen bg-gray-500">
+       <Card color="white" shadow={false} className="p-2 sm:p-8 md:p-12 lg:p-20">
         <Typography variant="h4" color="blue-gray" className="flex items-center justify-between">
         {type === "sign up" && "Sign Up"}
         {type === "sign in" && "Sign In"}
@@ -48,7 +48,7 @@ import { Card, Input, Button, Typography, IconButton } from "@material-tailwind/
         {type === "sign up" && <>Nice to meet you! Enter your details to register.</>}
         {type === "sign in" && <>Nice to meet you! Enter your details to login.</>}
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+        <form className="mt-8 mb-2 w-72 sm:w-80 md:w-80 lg:w-96">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="h6" color="blue-gray" className="-mb-3">Your Name</Typography>
             <Input

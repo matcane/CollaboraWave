@@ -206,7 +206,7 @@ function Board() {
                                 ))}
                                 <li className='flex flex-col items-center h-auto w-60 md:w-96 m-10'>
                                         {stageNew && 
-                                            <div className="w-60 md:w-96 h-16 text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer" ref={newRef}>
+                                            <div className="w-60 md:w-96 h-44 text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer" ref={newRef}>
                                                 <BoardForm type={"add"} item={"stage"} data={{board: board_id}} update={addStage}/>
                                             </div>
                                             }
