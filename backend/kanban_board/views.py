@@ -267,6 +267,5 @@ def card_delete(request, board_id, stage_id, card_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        deleted_card = CardModelSerializer(card)
         card.delete()
-        return Response(deleted_card.data, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)

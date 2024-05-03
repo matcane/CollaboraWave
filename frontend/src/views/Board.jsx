@@ -1,4 +1,6 @@
+import React from 'react';
 import { useState, useEffect, useRef } from 'react';
+import { Spinner } from "@material-tailwind/react";
 import { board_stages } from '../services/board';
 import BoardForm from '../components/BoardForm';
 
@@ -14,6 +16,7 @@ function Board() {
     const [stageNew, setStageNew] = useState(false);
     const [stageEdit, setStageEdit] = useState(false);
     const newRef = useRef(null);
+    const [isFetching, setIsFetching] = useState(true);
 
     const clear = () => {
         setCardEdit(false);
@@ -30,7 +33,9 @@ function Board() {
 
     const fetchStagesData = async () => {
         try{
+            setIsFetching(true);
             const response = await board_stages(board_id);
+            setIsFetching(false);
             setStages(response);
             console.log(response);
         } catch (error) {
@@ -163,47 +168,54 @@ function Board() {
 
     return(
             <>
-                <ol className="flex flex-row w-full h-[calc(100vh-3.5rem)] overflow-x-auto scrollbar-hidden select-none">
+            {isFetching ? <div className='flex w-full h-screen justify-center items-center'><Spinner className="h-1/4 w-1/4 text-blue-900/50" /></div> :
+                <ol className="flex flex-row w-full h-[calc(100vh-58px)] overflow-x-auto scrollbar-hidden select-none">
                                 {stages.map((stage, index) => (
-                                    <li className="flex flex-col items-center h-[calc(100%-6rem)] w-96 m-10" key={index}>
+                                    <li className="flex flex-col items-center h-auto w-60 m-10 md:w-96" key={index}>
                                         <>
                                                 {stageEdit && currentStageEditIndex === index ? 
-                                                <div className='w-full text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer' ref={newRef}><BoardForm type={"edit"} item={"stage"} data={{board: board_id, stage: stage.id, title: stage.title}} update={updateStage} remove={deleteStage}/></div> 
+                                                <div className='w-full h-44 text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer' ref={newRef}><BoardForm type={"edit"} item={"stage"} data={{board: board_id, stage: stage.id, title: stage.title}} update={updateStage} remove={deleteStage}/></div> 
                                                 :
-                                                <div className="w-96 h-16 min-h-16 text-center bg-blue-200 border-2 border-blue-400 rounded-lg overflow-x-auto cursor-pointer hover:bg-blue-400 hover:border-blue-200" onDoubleClick={() => handleEditStage(index)}>
+                                                <div className="w-60 md:w-96 h-16 min-h-16 text-center bg-blue-200 border-2 border-blue-400 rounded-lg overflow-x-auto cursor-pointer hover:bg-blue-400 hover:border-blue-200" onDoubleClick={() => handleEditStage(index)}>
                                                 <p>{stage.title}</p>
                                                 </div>
                                                 }
-                                            <ol className='p-0 w-96 overflow-y-auto overflow-x-hidden list-none'>
+                                            <ol className='p-0 w-60 md:w-96 overflow-y-auto overflow-x-hidden list-none'>
                                                 {stage.cards.map((card, cardIndex) => (
-                                                    <div className="bg-blue-200 w-auto min-h-32 border-2 border-blue-400 rounded-lg m-10 p-2 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200" key={cardIndex} onDoubleClick={() => handleEditCard(index, cardIndex)}>
-                                                        {cardEdit && currentCardEditIndex === cardIndex && currentStageEditIndex === index ? <div ref={newRef}><BoardForm type={"edit"} item={"card"} data={{board: board_id, stage: stage.id, card: card.id, title: card.title}} update={updateCard} remove={deleteCard}/></div> :
-                                                        <p className='break-words'>{card.title}</p>
+                                                    <React.Fragment key={cardIndex}>
+                                                        {cardEdit && currentCardEditIndex === cardIndex && currentStageEditIndex === index ? 
+                                                        <div className='bg-blue-200 w-auto h-44 border-2 border-blue-400 rounded-lg m-2 p-2 cursor-pointer hover:bg-blue-400 hover:border-blue-200' ref={newRef}>
+                                                            <BoardForm type={"edit"} item={"card"} data={{board: board_id, stage: stage.id, card: card.id, title: card.title}} update={updateCard} remove={deleteCard}/>
+                                                        </div> :
+                                                        <div className="bg-blue-200 w-auto min-h-32 border-2 border-blue-400 rounded-lg m-2 p-2 cursor-pointer hover:bg-blue-400 hover:border-blue-200" onDoubleClick={() => handleEditCard(index, cardIndex)}>
+                                                            <p className='break-words'>{card.title}</p>
+                                                        </div>
                                                         }
-                                                    </div>
+                                                    </React.Fragment>
                                                 ))}
 
-                                                {cardNew && currentStageEditIndex === index && <div className='bg-blue-200 w-auto min-h-32 border-2 border-blue-400 rounded-lg m-10 p-2 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200' ref={newRef}><BoardForm type={"add"} item={"card"} data={{board: board_id, stage: stage.id, title: ""}} update={addCard}/></div>}
+                                                {cardNew && currentStageEditIndex === index && <div className='bg-blue-200 w-auto h-48 border-2 border-blue-400 rounded-lg m-2 p-2 cursor-pointer hover:bg-blue-400 hover:border-blue-200' ref={newRef}><BoardForm type={"add"} item={"card"} data={{board: board_id, stage: stage.id, title: ""}} update={addCard}/></div>}
                                             </ol>
                                             <ol>
                                             {((!cardEdit || !stageEdit) && currentStageEditIndex !== index) &&
-                                                <div className="bg-blue-200 w-96 h-12 border-2 border-blue-400 rounded-lg m-2 p-3.5 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200" onClick={() => handleNewCard(index)}>+ New card</div>
+                                                <div className="bg-blue-200 w-60 md:w-96 h-12 border-2 border-blue-400 rounded-lg m-10 p-2 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200" onClick={() => handleNewCard(index)}>+ New card</div>
                                             }
                                             </ol>
                                         </>
                                     </li>
                                 ))}
-                                <li className='flex flex-col items-center h-[calc(100%-6rem)] w-96 m-10'>
-                                        <ol className='flex justify-center p-0 w-96 overflow-y-auto overflow-x-hidden list-none'>
+                                <li className='flex flex-col items-center h-auto w-60 md:w-96 m-10'>
                                         {stageNew && 
-                                            <div className="w-full text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer">
-                                                <div ref={newRef}><BoardForm type={"add"} item={"stage"} data={{board: board_id}} update={addStage}/></div>
+                                            <div className="w-60 md:w-96 h-16 text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer" ref={newRef}>
+                                                <BoardForm type={"add"} item={"stage"} data={{board: board_id}} update={addStage}/>
                                             </div>
                                             }
-                                        {!stageNew && <div className="bg-blue-200 w-96 h-16 border-2 border-blue-400 rounded-lg m-2 p-3.5 cursor-pointer" onClick={() => handleNewStage()}>+ New stage</div>}
-                                    </ol>
+                                        {!stageNew && !isFetching && <div className="bg-blue-200 w-60 md:w-96 h-16 border-2 border-blue-400 rounded-lg p-3.5 cursor-pointer" onClick={() => handleNewStage()}>+ New stage</div>}
+                                        
                                 </li>
-                            </ol>
+                                
+                </ol>
+                }
             </>
     )
 }
