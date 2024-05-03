@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
+const BASEURL = "http://127.0.0.1:8000"
 
 const api = axios.create({
-     baseURL: "http://127.0.0.1:8000",
+     baseURL: BASEURL,
    });
 
    api.interceptors.request.use(
@@ -17,7 +18,7 @@ const api = axios.create({
             const now = Date.now() / 1000;
 
             if (tokenExpiration < now) {
-                const response = await axios.post("http://127.0.0.1:8000/token/refresh/", { refresh: refreshToken });
+                const response = await axios.post(BASEURL + "/token/refresh/", { refresh: refreshToken });
                 window.localStorage.setItem("access_token", response.data.access);
                 config.headers.Authorization = `Bearer ${response.data.access}`;
             }

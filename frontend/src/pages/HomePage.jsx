@@ -1,14 +1,13 @@
-import Header from '../components/Header';
 import Dashboard from '../views/Dashboard';
 import Board from '../views/Board';
-import './HomePage.css';
+import { Nav } from '../components/Nav';
 
 function HomePage() {
     let view = window.localStorage.getItem("view");
 
     return(
         <>
-        <Header auth={true} update={() => {window.localStorage.clear(); window.location.reload(false);}}/>
+        <Nav auth={true} />
         {view === 'Dashboard' ? <Dashboard /> : <></>}
         {view === 'Board' ? <Board /> : <></>}
         </>
