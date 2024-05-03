@@ -174,7 +174,7 @@ function BoardForm({type, item, data, update, remove, loading}) {
             setIsLoading(true);
             const response = await board_delete(data.id);
             setIsLoading(false);
-            remove(response.data.id);
+            remove(data.id);
             setTitle("");
         } catch (error) {
             console.log(error);

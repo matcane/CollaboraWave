@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
-const BASEURL = "http://127.0.0.1:8000"
+const BASEURL = "https://collaborawave.up.railway.app"
 
 const api = axios.create({
      baseURL: BASEURL,
