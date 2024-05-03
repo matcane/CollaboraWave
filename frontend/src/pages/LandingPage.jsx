@@ -1,58 +1,49 @@
-import { useState } from 'react';
-import Auth from '../components/Auth';
-import Header from '../components/Header';
-import './LandingPage.css';
+import React from "react"
+import { Auth } from "../components/Auth"
+import { Footer } from "../components/Footer"
+import { Nav } from "../components/Nav"
+import { Button, Typography } from "@material-tailwind/react"
 
 function LandingPage() {
-    const [displayForm, setDisplayFrom] = useState(false);
-    const [typeForm, setTypeForm] = useState("");
+    const [isAuthOpen, setIsAuthOpen] = React.useState(false);
+    const [authType, setAuthType] = React.useState("");
 
-    const handleToggleAuthForm = (type) => {
-        setTypeForm(type);
-        setDisplayFrom(!displayForm);
-        scrollToTop()
+    const handleAuthTypeChange = (newType) => {
+        setAuthType(newType);
     };
 
-    function scrollToTop() {
-        setTimeout(() => {
-          window.scrollTo(document.body.scrollHeight, 0);
-        }, 0);
-      }
+    const handleAuthOpenChange = () => {
+        setIsAuthOpen(!isAuthOpen);
+    };
 
     return(
         <>
-        <Header auth={false} update={handleToggleAuthForm}/>
-                <section id='head'>
-                    <div>
-                    <h1>Welcome to CollaboraWave!</h1>
-                    </div>
-                </section>
-                <section id='content-info'>
-                    <div>
-                    <h3>What is CollaboraWave?</h3>
-                    <p>CollaboraWave is an innovative project management application based on the Kanban concept. With it, you can easily create, edit, and delete boards, stages on the board, and cards within stages to efficiently manage your tasks and projects.</p>
-                    </div>
-                </section>
-                <section id='content-list'>
-                    <div>
-                    <h1>Why CollaboraWave?</h1>
-                        <ul>
-                            <li>Flexibility</li>
-                            <li>Collaboration</li>
-                            <li>Intuitive Interface</li>
-                        </ul>
-                    </div>
-                </section>
-                <section id='content-info'>
-                    <div>
-                        <h3>Get started today!</h3> <p>Join thousands of satisfied CollaboraWave users and start managing your projects better.</p>
-                    </div>
-                    <button onClick={() => handleToggleAuthForm('sign up')}>Sign Up</button>
-                </section>
-                {displayForm && <Auth type={typeForm} update={handleToggleAuthForm}/>}
-                <footer id="footer">
-                    <p>&copy; 2024 CollaboraWave. All rights reserved.</p>
-                </footer>
+        <Nav auth={false} onAuthTypeChange={handleAuthTypeChange} onAuthOpenChange={handleAuthOpenChange}/>
+        
+
+        <section className="flex flex-col px-10 justify-center items-center w-full h-screen snap-center snap-normal">
+            <Typography variant="h1" color="blue" textGradient className="text-lg md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl"> Welcome to CollaboraWave! </Typography>
+            <Button size="lg" variant="outlined" color="blue" onClick={() => {handleAuthOpenChange(); handleAuthTypeChange("sign up")}}>Try now!</Button>
+        </section>
+
+        <section className="flex flex-col px-10 justify-evenly items-center w-full h-screen snap-center snap-normal">
+            <Typography variant="h1" color="blue" textGradient className="text-xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl"> What is CollaboraWave? </Typography>
+            <Typography variant="lead" color="black" className="h-1/2 text-xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-7xl">
+            CollaboraWave is an innovative project management application based on the Kanban concept. 
+            With it, you can easily create, edit, and delete boards, stages on the board, and cards within stages to efficiently manage your tasks and projects.
+            </Typography>
+        </section>
+        
+        <section className="flex flex-col px-10 justify-evenly items-center w-full h-screen snap-center snap-normal">
+            <Typography variant="h1" color="blue" textGradient className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-8xl"> Why CollaboraWave? </Typography>
+            <div className="flex flex-col justify-evenly items-center w-full h-1/3 md:flex-row">
+                <Typography variant="h1" className="flex mx-2 items-center justify-center w-full h-full border-4 rounded-2xl border-blue-200 hover:border-blue-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">Flexibility</Typography>
+                <Typography variant="h1" className="flex mx-2 items-center justify-center w-full h-full border-4 rounded-2xl border-blue-200 hover:border-blue-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">Collaboration</Typography>
+                <Typography variant="h1" className="flex mx-2 items-center justify-center w-full h-full border-4 rounded-2xl border-blue-200 hover:border-blue-400 text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl">Intuitive Interface</Typography>
+            </div>
+        </section>
+        {isAuthOpen && <Auth type={authType} onAuthTypeChange={handleAuthTypeChange} onAuthOpenChange={handleAuthOpenChange} />}
+        <Footer />
         </>
     )
 }

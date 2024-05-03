@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { board_stages } from '../services/board';
 import BoardForm from '../components/BoardForm';
-import './Board.css';
 
 
 function Board() {
@@ -68,7 +67,7 @@ function Board() {
         setStageEdit(false);
         setCardEdit(false);
         setStageNew(false);
-        setCurrentStageEditIndex(index);
+        setCurrentStageEditIndex(index);  
     }
 
     const handleEditStage = async (index) => {
@@ -156,48 +155,56 @@ function Board() {
         clear();
     };
 
-    return(
-            <div>
-                <ol className="board">
-                    {stages.map((stage, index) => (
-                        <li className="stage" key={index}>
-                            <div>
-                                <div className="stage-title" onDoubleClick={() => handleEditStage(index)}>
-                                    {stageEdit && currentStageEditIndex === index ? <div ref={newRef}><BoardForm type={"edit"} item={"stage"} data={{board: board_id, stage: stage.id, title: stage.title}} update={updateStage} remove={deleteStage}/></div> :
-                                    <p>{stage.title}</p>
-                                    }
-                                </div>
-                                <ol>
-                                    {stage.cards.map((card, cardIndex) => (
-                                        <div className="card" key={cardIndex} onDoubleClick={() => handleEditCard(index, cardIndex)}>
-                                            {cardEdit && currentCardEditIndex === cardIndex && currentStageEditIndex === index ? <div ref={newRef}><BoardForm type={"edit"} item={"card"} data={{board: board_id, stage: stage.id, card: card.id, title: card.title}} update={updateCard} remove={deleteCard}/></div> :
-                                            <p>{card.title}</p>
-                                            }
-                                        </div>
-                                    ))}
+    useEffect(() => {
+        if (newRef.current) {
+            newRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+        }
+    }, [cardNew]);
 
-                                    {cardNew && currentStageEditIndex === index && <div className='card' ref={newRef}><BoardForm type={"add"} item={"card"} data={{board: board_id, stage: stage.id, title: ""}} update={addCard}/></div>}
-                                </ol>
-                                <ol>
-                                {((!cardEdit || !stageEdit) && currentStageEditIndex !== index) &&
-                                    <div className="new-card-button" onClick={() => handleNewCard(index)}>+ New card</div>
-                                }
-                                </ol>
-                            </div>
-                        </li>
-                    ))}
-                    <li className='new-stage'>
-                            <div>
-                            {stageNew && 
-                                <div className="stage-title">
-                                    <div ref={newRef}><BoardForm type={"add"} item={"stage"} data={{board: board_id}} update={addStage}/></div>
-                                </div>
-                                }
-                            {!stageNew && <div className="new-stage-button" onClick={() => handleNewStage()}>+ New stage</div>}
-                        </div>
-                    </li>
-                </ol>
-            </div>
+    return(
+            <>
+                <ol className="flex flex-row w-full h-[calc(100vh-3.5rem)] overflow-x-auto scrollbar-hidden select-none">
+                                {stages.map((stage, index) => (
+                                    <li className="flex flex-col items-center h-[calc(100%-6rem)] w-96 m-10" key={index}>
+                                        <>
+                                                {stageEdit && currentStageEditIndex === index ? 
+                                                <div className='w-full text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer' ref={newRef}><BoardForm type={"edit"} item={"stage"} data={{board: board_id, stage: stage.id, title: stage.title}} update={updateStage} remove={deleteStage}/></div> 
+                                                :
+                                                <div className="w-96 h-16 min-h-16 text-center bg-blue-200 border-2 border-blue-400 rounded-lg overflow-x-auto cursor-pointer hover:bg-blue-400 hover:border-blue-200" onDoubleClick={() => handleEditStage(index)}>
+                                                <p>{stage.title}</p>
+                                                </div>
+                                                }
+                                            <ol className='p-0 w-96 overflow-y-auto overflow-x-hidden list-none'>
+                                                {stage.cards.map((card, cardIndex) => (
+                                                    <div className="bg-blue-200 w-auto min-h-32 border-2 border-blue-400 rounded-lg m-10 p-2 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200" key={cardIndex} onDoubleClick={() => handleEditCard(index, cardIndex)}>
+                                                        {cardEdit && currentCardEditIndex === cardIndex && currentStageEditIndex === index ? <div ref={newRef}><BoardForm type={"edit"} item={"card"} data={{board: board_id, stage: stage.id, card: card.id, title: card.title}} update={updateCard} remove={deleteCard}/></div> :
+                                                        <p className='break-words'>{card.title}</p>
+                                                        }
+                                                    </div>
+                                                ))}
+
+                                                {cardNew && currentStageEditIndex === index && <div className='bg-blue-200 w-auto min-h-32 border-2 border-blue-400 rounded-lg m-10 p-2 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200' ref={newRef}><BoardForm type={"add"} item={"card"} data={{board: board_id, stage: stage.id, title: ""}} update={addCard}/></div>}
+                                            </ol>
+                                            <ol>
+                                            {((!cardEdit || !stageEdit) && currentStageEditIndex !== index) &&
+                                                <div className="bg-blue-200 w-96 h-12 border-2 border-blue-400 rounded-lg m-2 p-3.5 relative cursor-pointer hover:bg-blue-400 hover:border-blue-200" onClick={() => handleNewCard(index)}>+ New card</div>
+                                            }
+                                            </ol>
+                                        </>
+                                    </li>
+                                ))}
+                                <li className='flex flex-col items-center h-[calc(100%-6rem)] w-96 m-10'>
+                                        <ol className='flex justify-center p-0 w-96 overflow-y-auto overflow-x-hidden list-none'>
+                                        {stageNew && 
+                                            <div className="w-full text-center bg-blue-200 border-2 border-blue-400 rounded-lg p-3 cursor-pointer">
+                                                <div ref={newRef}><BoardForm type={"add"} item={"stage"} data={{board: board_id}} update={addStage}/></div>
+                                            </div>
+                                            }
+                                        {!stageNew && <div className="bg-blue-200 w-96 h-16 border-2 border-blue-400 rounded-lg m-2 p-3.5 cursor-pointer" onClick={() => handleNewStage()}>+ New stage</div>}
+                                    </ol>
+                                </li>
+                            </ol>
+            </>
     )
 }
 
