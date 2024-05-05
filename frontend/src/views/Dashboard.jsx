@@ -109,13 +109,13 @@ function Dashboard() {
             </Alert>
             <div className="flex flex-wrap justify-center items-start">
                 {boards.map((board, index) => (
-                <div className="flex flex-col w-80 h-48 border-4 border-blue-400 rounded-lg shadow-md m-4 bg-blue-100 hover:border-8 cursor-pointer" key={index}>
+                <div className="flex flex-col w-80 h-48 border-4 border-blue-400 rounded-lg shadow-md m-4 bg-blue-100 cursor-pointer" key={index}>
                     
                     {boardEdit && currentBoardEditIndex === index ? 
                         <div className='h-full' ref={newRef}><BoardForm type={"edit"} item={"board"} data={board} update={updateBoard} remove={deleteBoard}/></div>
                         :
                         <div className='h-full p-4'>
-                            <h2 className="text-2xl text-center overflow-auto h-4/5 m-0 cursor-pointer break-words" onClick={() => openBoard(board)}>{board.title}</h2>
+                            <h2 className="text-2xl text-left overflow-auto h-4/5 m-0 cursor-pointer break-words" onClick={() => openBoard(board)}>{board.title}</h2>
                             <div className="text-2xl text-center bg-blue-400 hover:bg-blue-600 h-1/5 cursor-pointer" onClick={() => editBoard(index)}>Edit</div>
                         </div>
                     }

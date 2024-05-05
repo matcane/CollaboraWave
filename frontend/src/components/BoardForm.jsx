@@ -184,8 +184,8 @@ function BoardForm({type, item, data, update, remove, loading}) {
         <>
         {isLoading ? <div className='flex h-full justify-center items-center'><Spinner className="h-1/2 w-1/2 text-blue-900/50" /></div>
         :
-        <form className='flex flex-col items-center space-y-4' id='form'>
-            <textarea ref={newRef} autoFocus className='bg-blue-100 w-full min-h-24 text-lg px-4 py-2 rounded-lg' required value={title} onChange={e => setTitle(e.target.value)}/>
+        <form className='flex flex-col items-center space-y-2' id='form'>
+            <textarea maxLength={40} spellCheck={false} ref={newRef} autoFocus className='bg-transparent w-full min-h-14 text-2xl px-4 py-4 rounded-lg outline-none resize-none' required value={title} onChange={e => setTitle(e.target.value)}/>
             <div className='flex justify-center space-x-4'>
                 <button type='button' onClick={(e) => handleFormSubmit(e)} className='px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'>{type === "edit" ? "Save" : "Add"}</button>
                 <button type='button' onClick={(e) => handleFormDissmis(e)} className='px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600'>{type === "edit" ? "Delete" : "Close"}</button>
