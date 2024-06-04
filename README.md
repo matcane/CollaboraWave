@@ -9,7 +9,7 @@
 CollaboraWave is a project management application based on the Kanban concept. With it, you can easily create, edit, and delete boards, stages on the board, and cards within stages to efficiently manage your tasks and projects. The project consists of a backend written in Python using the Django framework and Django REST Framework, and a frontend written in JavaScript using the React library. JWT (JSON Web Token) is used for user authentication, while PostgreSQL server as the database. Tailwind CSS and Material Tailwind for styling.
 
 ## Live Demo
-https://46d9d898-396f-4be6-a3e2-95606b6b5018.e1-eu-north-azure.choreoapps.dev
+https://collaborawave.ne.choreoapps.dev
 
 ## Installation and Running Locally
 1. Clone the repository: `git clone https://github.com/matcane/CollaboraWave.git`
